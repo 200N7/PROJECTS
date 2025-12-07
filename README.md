@@ -46,15 +46,7 @@ This repository may include projects using:
 - To build a strong GitHub portfolio
 - To keep all projects in one place for easy reference
 
-  PROJECTS/
-│
-├── C_Concept_Virtual_Lab_Console/
-│ ├── source_code/
-│ ├── documentation/
-│ ├── screenshots/
-│ └── README.md
-│
-└── (More project folders coming soon...)
+<img width="374" height="198" alt="image" src="https://github.com/user-attachments/assets/0d3e59df-bd97-489b-9079-e244b28350fb" />
 
 📢 Future Updates
 I will continue expanding this repository with:
