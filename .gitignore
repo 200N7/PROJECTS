@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+*.pyc
+.plumb_runtime/
+plumb.db*
+reports/generated/*
