@@ -1,0 +1,10 @@
+1. Add tasks with a title, status, and priority; adding a task must preserve the data supplied.
+2. Export filtered tasks as CSV; the export must contain only records matching the requested status; an empty filtered result must still return a valid CSV header.
+3. Merge an incoming batch into an existing task list; exact duplicate tasks should be removed, but distinct tasks that share a title must remain distinct; insertion order of retained tasks must be preserved.
+4. Provide a health endpoint at /health that returns HTTP 200 and a JSON status of ok.
+5. Provide an item-count endpoint at /items/count that returns HTTP 200 and count=3 for the demo dataset.
+6. Handle larger duplicate-detection workloads without disproportionate runtime growth.
+7. Do not expose hardcoded credentials or execute user-controlled commands with unsafe shell semantics.
+
+HTTP_CHECK GET /health 200 status=ok
+HTTP_CHECK GET /items/count 200 count=3

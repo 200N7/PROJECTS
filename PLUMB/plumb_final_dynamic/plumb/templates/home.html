@@ -1,0 +1,42 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PLUMB — Evidence before confidence</title><link rel="stylesheet" href="/static/style.css"></head>
+<body>
+<header class="topbar"><div class="navbrand"><div class="brandmark">P</div><div class="brand">PLUMB</div></div><nav class="nav"><a class="active" href="/">New inspection</a><a href="/history">History</a><a href="#how">How it works</a></nav></header>
+<main class="shell">
+<section class="hero">
+  <div class="hero-copy">
+    <div class="kicker">Evidence-first verification for AI-built software</div>
+    <h1>PLUMB</h1>
+    <div class="tagline">How deep does “done” really go?</div>
+    <p class="sub">AI can produce software in minutes. That does not make the software correct. PLUMB looks beneath the completion claim, traces requirements into the implementation, challenges what can be tested, records what actually happened, and shows the evidence behind the verdict.</p>
+    <div class="proof-row" id="how">
+      <div class="proof-card"><b>01 · Inspect</b><p>Understand the project, structure, dependencies and requested requirements.</p></div>
+      <div class="proof-card"><b>02 · Pressure-test</b><p>Use supported build, test, runtime, security, mutation and performance checks.</p></div>
+      <div class="proof-card"><b>03 · Prove</b><p>Separate claimed from observed and verified, with traceable evidence.</p></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="depth-orbit"><div class="grid-lines"></div><div class="core"><div class="core-ring"><div class="core-inner"><b>PLUMB</b></div></div></div>
+      <div class="depth-label d1">CLAIMED</div><div class="depth-label d2">DETECTED</div><div class="depth-label d3">OBSERVED</div><div class="depth-label d4">VERIFIED</div>
+    </div>
+  </div>
+</section>
+<section class="form-shell" id="inspect">
+  <div class="form-head"><div><div class="eyebrow">START AN INSPECTION</div><h2>Put a project under pressure.</h2><p>Provide the request, the AI's completion claim, and the project archive.</p></div><div class="status-mini">LOCAL-FIRST · EVIDENCE-DRIVEN</div></div>
+  <form id="uploadForm" enctype="multipart/form-data">
+    <div class="field"><label>Project name <small>Required</small></label><input name="project_name" required placeholder="e.g. Support Desk API"></div>
+    <div class="field"><label>Original task / specification <small>Required</small></label><textarea name="task_spec_text" required placeholder="1. What the software should do\n2. Important behaviours or constraints\n3. Expected outputs"></textarea></div>
+    <div class="field"><label>AI completion claim <small>Optional</small></label><textarea name="ai_completion_message" placeholder="All requested functionality is implemented and tested."></textarea></div>
+    <div class="field"><label>Project archive <small>ZIP · multi-file supported</small></label><label class="dropzone" id="dropzone"><input id="archive" type="file" name="project_archive" accept=".zip,application/zip" required><span class="drop-main"><span class="drop-icon">↥</span><span><b id="fileTitle">Drop your project ZIP here</b><span id="fileMeta">or click to choose a .zip file · PLUMB inspects the archive without trusting its claim.</span></span></span></label></div>
+    <button id="submitBtn" class="primary" type="submit">Inspect the project</button><div id="msg" class="form-message" aria-live="polite"></div>
+  </form>
+</section>
+<footer class="footer"><span>PLUMB · evidence before confidence</span><span>Supported scope is always disclosed in the result.</span></footer>
+</main>
+<script>
+const f=document.getElementById('uploadForm'),m=document.getElementById('msg'),btn=document.getElementById('submitBtn'),file=document.getElementById('archive'),title=document.getElementById('fileTitle'),meta=document.getElementById('fileMeta'),dz=document.getElementById('dropzone');
+file.addEventListener('change',()=>{const x=file.files[0];if(!x){title.textContent='Drop your project ZIP here';meta.textContent='or click to choose a .zip file · PLUMB inspects the archive without trusting its claim.';dz.classList.remove('has-file');return}title.textContent=x.name;meta.textContent=(x.size/1024/1024).toFixed(2)+' MB · ready for inspection';dz.classList.add('has-file')});
+f.onsubmit=async e=>{e.preventDefault();const x=file.files[0];if(!x){m.className='form-message error';m.textContent='Choose a ZIP archive first.';return}if(!x.name.toLowerCase().endsWith('.zip')){m.className='form-message error';m.textContent='PLUMB currently accepts ZIP project archives.';return}btn.disabled=true;btn.textContent='Inspecting…';m.className='form-message working';m.innerHTML='<span class="spinner"></span><span><b>Inspection running</b><br>Discovering files, mapping requirements, running supported checks and collecting evidence. This can take a little while.</span>';
+try{const r=await fetch('/api/analyses',{method:'POST',body:new FormData(f)});let j={};try{j=await r.json()}catch(_){j={detail:'The server returned an unreadable response.'}}if(!r.ok)throw new Error(j.detail||'Inspection failed.');m.className='form-message success';m.textContent='Inspection complete. Opening the evidence…';location.href='/analysis/'+j.analysis_id}catch(err){btn.disabled=false;btn.textContent='Inspect the project';m.className='form-message error';m.textContent=err.message||'Could not reach PLUMB. Check that the local server is running.'}};
+</script>
+</body></html>

@@ -1,0 +1,3 @@
+1. Add tasks with a title, status, and priority; adding a task must preserve the data supplied.
+2. Export filtered tasks as CSV; the export must contain only records matching the requested status; an empty filtered result must still return a valid CSV header.
+3. Merge an incoming batch into an existing task list; exact duplicate tasks should be removed, but distinct tasks that share a title must remain distinct; insertion order of retained tasks must be preserved.
